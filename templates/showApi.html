@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+</head>
+<body>
+    <form class="form">
+    <p>Name 
+        <input type="text" id="name", name="name"></p>
+    <p>Comments 
+        <input type="text" id="comments" name="comments"></p>
+    <input name="uid" type="hidden" id='Uid'>
+    <button type="submit" id="btn">Submit</button>
+    </form>
+    <table id="display">
+        <tr>
+            <td>UID</td>
+            <td>Name</td>
+            <td>Comment</td>
+        </tr>
+
+    </table>
+
+    <script>
+
+      
+
+        document.getElementById("btn").addEventListener("click", getValue);
+
+        function getValue(e){
+
+            e.preventDefault();
+
+            var table = document.getElementById("display").style.display='block';
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", '/api', true); 
+            
+            var name = document.getElementById("name").value;
+            var comment = document.getElementById("comments").value;
+            var uid = Math.random();
+            
+
+
+
+            xhr.onload = function() {
+                
+                console.log(name, comment);
+                
+
+            };
+
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+            xhr.send(JSON.stringify(name, comment, uid));
+
+            
+            var row = 1;
+
+            var table = document.getElementById("display");
+
+            var newRow = table.insertRow(row);
+
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+
+            cell1.innerHTML = uid;
+            cell2.innerHTML = name;
+            cell3.innerHTML = comment;
+
+            row++;
+        };
+    </script>
+</body>
+</html>
